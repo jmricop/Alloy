@@ -3,3 +3,7 @@
 sig Persona{
     
 }
+
+sig Trabajador extends Persona{
+    
+}
