@@ -7,9 +7,11 @@ Prueba
 Prueba
 
 // Pablo
+sig Persona{
 
+}
 
-//Jose
+// Jose
 
 
 // David
