@@ -4,7 +4,24 @@
 
 
 // Pablo
-enum hola {1,2,3}
+sig OficinaTurismo{
+
+    excursion : set Actividad,
+    servicio : some Hotel
+
+}
+
+sig Actividad{
+
+ administrador: some OficinaTurismo
+
+}
+
+sig Hotel{
+
+ administrador: one OficinaTurismo
+
+}
 
 // Jose
 
