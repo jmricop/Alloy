@@ -1,9 +1,12 @@
 /* PRACTICA 2 Alloy */
 
-sig Persona{
-    
-}
+// Chemi
 
-sig Trabajador extends Persona{
-    
-}
+
+// Pablo
+
+
+//Jose
+
+
+// David
