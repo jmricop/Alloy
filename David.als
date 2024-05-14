@@ -1,3 +1,5 @@
+/*  1
+
 abstract sig Persona{}
 
 abstract sig GuiaTuristico extends Persona{}
@@ -18,8 +20,6 @@ fact SoloUnGobierno {
     one g: GobiernoyAdm | g.leyes = Ley
 }
 
-
-//
 sig OficinaTurismo{
     gobierno: one GobiernoyAdm,
     excursion : set Actividad,
@@ -60,6 +60,50 @@ fact HotelesEnOficinaTurismo {
 fact TuristasenHoteles{
     all t: Turista | all h: Hotel | t.hotel = h implies t in h.huespedes
 }
-//*/
+//1     */
 
-run show{}
+
+/* 2
+
+sig GobiernoyAdm{
+    controlInf: one ControlInfraestructuras,
+    recursos: one Recursos,
+}
+
+fact Solo1 {
+    #GobiernoyAdm = 1 && #Recursos = 1 && #ControlInfraestructuras = 1
+}
+
+sig Recursos{
+    esAdministrado: one GobiernoyAdm, 
+    agua: Int,
+    energia: Int,
+    comida: Int,
+    oxigeno: Int
+}
+
+fact RecursosNo0{
+    one r: Recursos | r.agua >= 0 && r.energia >= 0 && r.comida >= 0 && r.oxigeno >= 0 
+
+}
+
+sig ControlInfraestructuras{
+    esControlado: one GobiernoyAdm,
+    estaciones: some EstacionDeEnergia,
+    abastecimientos: some AbastecimientoDeAgua,
+    campos: some CamposDeCultivo,
+    residuos: some AguasResiduales
+}
+
+fact Inf_GyA{
+    one ci: ControlInfraestructuras | one g: GobiernoyAdm | ci.esControlado = g implies g.controlInf = ci
+}
+
+sig EstacionDeEnergia, AbastecimientoDeAgua, CamposDeCultivo, AguasResiduales{
+    esSupervisado: one ControlInfraestructuras
+}
+//2     */
+
+run show{
+    //#EstacionDeEnergia<=2 && #AbastecimientoDeAgua<=2 && #CamposDeCultivo<=2 && #AguasResiduales<=2
+}
