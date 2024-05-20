@@ -9,28 +9,33 @@ fact GuiaUnicoPorActividad {
 fact MaximoTuristasPorActividad {
     all a: Actividad | #a.participantes <= 10
 }*/
-sig CentroInvestigacion {
+one sig CentroInvestigacion {
     //esControlado: one GobiernoyAdm,
-    investigaciones: some Investigacion,
+    supervisa: some Investigacion,
 }
 
 sig Investigacion {
-    esSupervisado: one CentroInvestigacion,
+    tieneCientificos: some Cientifico
 
 }
 
-sig Cientifico {
-    esParteDe: some Investigacion
+sig Cientifico {}
+
+fact minimoCientificosPorInvestigacion {
+    all i: Investigacion | #i.tieneCientificos >= 1
+}
+fact cientificoUnicoPorInvestigacion {
+    all c: Cientifico | one i: Investigacion | c in i.tieneCientificos
+}
+fact investigacionSupervisada {
+    all i: Investigacion | one c: CentroInvestigacion | i in c.supervisa
 }
 
-fact unCentroInvestigacion {
-    #CentroInvestigacion = 1
+fact minimoCientificosPorInvestigacion {
+    all i: Investigacion | #i.tieneCientificos >= 1
 }
-fact unInvestigacion {
-    #Investigacion = 2
-}
+
 
 pred show(){}
-run show {
-    
-}
+//run show for 2 Investigacion, 3 Cientifico
+run show{}
