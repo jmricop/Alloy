@@ -18,6 +18,25 @@ sig OficinaTurismo{
 sig GobiernoyAdm{
     leyes : disj some Ley,
     oficina: one OficinaTurismo,
+    controlInf: one ControlInfraestructuras,
+    recursos: one Recursos,
+}
+sig ControlInfraestructuras{
+    esControlado: one GobiernoyAdm,
+    estaciones: some EstacionDeEnergia,
+    abastecimientos: some AbastecimientoDeAgua,
+    campos: some CamposDeCultivo,
+    residuos: some AguasResiduales
+}
+sig Recursos{
+    esAdministrado: one GobiernoyAdm, 
+    agua: Int,
+    energia: Int,
+    comida: Int,
+    oxigeno: Int
+}
+sig EstacionDeEnergia, AbastecimientoDeAgua, CamposDeCultivo, AguasResiduales{
+    esSupervisado: one ControlInfraestructuras
 }
 
 abstract sig Hotel{
@@ -42,8 +61,21 @@ fact UnTuristaEnUnaActividad {
 fact LeyesDistintas {
     all g: GobiernoyAdm | all l1, l2: g.leyes | l1 != l2
 }
-//fact EntreTodosMenosUno
+pred ActividadesConCincoParticipantes {
+    all a: Actividad | #a.participantes >= 5
+}
 
+// Un turista no puede ser trabajador
+fact TuristaNoTrabajador {
+    no t: Turista | t in Trabajador
+}
+// El número de leyes en el gobierno debe coincidir con el tamaño del conjunto de leyes
+fact NumeroDeLeyes {
+    all g: GobiernoyAdm | #g.leyes = #Ley
+}
+fact Recursos{
+    all r: Recursos | r.agua >= 0 && r.energia >= 0 && r.comida >= 0 && r.oxigeno >= 0
+}
 run show{
     //#EstacionDeEnergia<=2 && #AbastecimientoDeAgua<=2 && #CamposDeCultivo<=2 && #AguasResiduales<=2
 }
