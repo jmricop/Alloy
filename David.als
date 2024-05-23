@@ -12,7 +12,7 @@ fact soloUnaActividadConGuia{
 
     all g: GuiaTuristico | all a: Actividad | #g.act = 1 implies g in a.guia and #a.guia = 1 implies a in g.act
     
-    #Actividad = 1
+    
 }
 
 sig Turista extends Persona{
