@@ -3,6 +3,32 @@ sig GobiernoyAdm{
     recursos: one Recursos,
 }
 
+one sig CentroInvestigacion {
+    esControlado: one GobiernoyAdm,
+    supervisa: some Investigacion,
+}
+
+sig Investigacion {
+    tieneCientificos: some Cientifico
+}
+
+sig Cientifico {}
+
+
+fact minimoCientificosPorInvestigacion {
+    all i: Investigacion | #i.tieneCientificos >= 1
+}
+fact cientificoUnicoPorInvestigacion {
+    all c: Cientifico | one i: Investigacion | c in i.tieneCientificos
+}
+fact investigacionSupervisada {
+    all i: Investigacion | one c: CentroInvestigacion | i in c.supervisa
+}
+
+fact minimoCientificosPorInvestigacion {
+    all i: Investigacion | #i.tieneCientificos >= 1
+}
+
 fact Solo1 {
     #GobiernoyAdm = 1 && #Recursos = 1 && #Infraestructuras = 1
 }
@@ -39,4 +65,6 @@ sig EstacionDeEnergia, AbastecimientoDeAgua, CamposDeCultivo, AguasResiduales{
     esSupervisado: one Infraestructuras
 }
 
-run show{}
+run show{
+    #Investigacion = 2
+}

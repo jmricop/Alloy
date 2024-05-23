@@ -16,7 +16,6 @@ one sig CentroInvestigacion {
 
 sig Investigacion {
     tieneCientificos: some Cientifico
-
 }
 
 sig Cientifico {}
