@@ -14,13 +14,14 @@ sig Investigacion {
 
 sig Cientifico {}
 
-
 fact minimoCientificosPorInvestigacion {
     all i: Investigacion | #i.tieneCientificos >= 1
 }
+
 fact cientificoUnicoPorInvestigacion {
     all c: Cientifico | one i: Investigacion | c in i.tieneCientificos
 }
+
 fact investigacionSupervisada {
     all i: Investigacion | one c: CentroInvestigacion | i in c.supervisa
 }

@@ -68,13 +68,17 @@ abstract sig CentroRescate{
     operaciones: some Operacion,
 }
 
+fact centroGobierno{
+    one c: CentroRescate | one g: GobiernoyAdm | c.esAdministrado = g implies g.centroOp = c
+}
+
 fact solo1CentroRescate{
     #CentroRescate = 1
 }
 
 abstract sig Operacion{
     centro: one CentroRescate,
-    medicos: disj set Medico,
+    medicos: disj some Medico,
     buzo: one Buzo,
 }
 
@@ -82,12 +86,22 @@ fact OperacionesEnCentroRescate{
     all o: Operacion | one c: CentroRescate | o.centro = c implies o in c.operaciones
 }
 
-fact RestriccionesOperacion{
-    all o: Operacion | #o.medicos = 2 && #o.buzo = 1
+//Quiero un hecho que diga que en las operaciones tiene que haber 2 medicos y 1 buzo
+fact OperacionMedicoBuzo{
+    all o: Operacion | #o.medicos = 2 and #o.buzo = 1
 }
 
-abstract sig Medico, Buzo extends Persona{
+abstract sig Medico, Buzo{
     operacion: one Operacion,
 }
+
+fact RelacionMedicoOperacion{
+    all m: Medico | all o: Operacion | m.operacion = o implies m in o.medicos
+}
+
+fact RelacionBuzoOperacion{
+    all b: Buzo | all o: Operacion | b.operacion = o implies b = o.buzo
+}
+
 
 run show{}
