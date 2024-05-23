@@ -1,6 +1,19 @@
+/*  1
+
 abstract sig Persona{}
 
-abstract sig GuiaTuristico extends Persona{}
+abstract sig GuiaTuristico extends Persona{
+
+    act: one Actividad
+
+}
+
+fact soloUnaActividadConGuia{
+
+    all g: GuiaTuristico | all a: Actividad | #g.act = 1 implies g in a.guia and #a.guia = 1 implies a in g.act
+    
+    #Actividad = 1
+}
 
 sig Turista extends Persona{
     hotel : one Hotel,
@@ -61,6 +74,16 @@ fact TuristasenHoteles{
     all t: Turista | all h: Hotel | t.hotel = h implies t in h.huespedes
 }
 
+//1     */
+
+
+//* 2
+
+sig GobiernoyAdm{
+    controlInf: one Infraestructuras,
+    recursos: one Recursos,
+}
+
 fact Solo1 {
     #Recursos = 1 && #Infraestructuras = 1
 }
@@ -96,9 +119,6 @@ fact Inf_GyA{
 sig EstacionDeEnergia, AbastecimientoDeAgua, CamposDeCultivo, AguasResiduales{
     esSupervisado: one Infraestructuras
 }
+//2     */
 
-//run show{}
-
-pred show{}
-
-run show for 4
+run show{}
