@@ -103,5 +103,5 @@ fact RelacionBuzoOperacion{
     all b: Buzo | all o: Operacion | b.operacion = o implies b = o.buzo
 }
 
-
+//Resuelto
 run show{}
