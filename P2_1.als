@@ -10,6 +10,7 @@ sig Turista extends Persona{
 sig GobiernoyAdm{
     leyes : disj some Ley,
     oficina: one OficinaTurismo,
+    centroOp: one CentroRescate,
 }
 
 abstract sig Ley{}
@@ -57,6 +58,36 @@ fact HotelesEnOficinaTurismo {
 
 fact TuristasenHoteles{
     all t: Turista | all h: Hotel | t.hotel = h implies t in h.huespedes
+}
+
+
+//Nuevo Codigo
+
+abstract sig CentroRescate{
+    esAdministrado: one GobiernoyAdm,
+    operaciones: some Operacion,
+}
+
+fact solo1CentroRescate{
+    #CentroRescate = 1
+}
+
+abstract sig Operacion{
+    centro: one CentroRescate,
+    medicos: disj set Medico,
+    buzo: one Buzo,
+}
+
+fact OperacionesEnCentroRescate{
+    all o: Operacion | one c: CentroRescate | o.centro = c implies o in c.operaciones
+}
+
+fact RestriccionesOperacion{
+    all o: Operacion | #o.medicos = 2 && #o.buzo = 1
+}
+
+abstract sig Medico, Buzo extends Persona{
+    operacion: one Operacion,
 }
 
 run show{}

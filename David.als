@@ -1,5 +1,3 @@
-/*  1
-
 abstract sig Persona{}
 
 abstract sig GuiaTuristico extends Persona{}
@@ -12,13 +10,15 @@ sig Turista extends Persona{
 sig GobiernoyAdm{
     leyes : disj some Ley,
     oficina: one OficinaTurismo,
+    controlInf: one Infraestructuras,
+    recursos: one Recursos,
 }
-
-abstract sig Ley{}
 
 fact SoloUnGobierno {
     one g: GobiernoyAdm | g.leyes = Ley
 }
+
+abstract sig Ley{}
 
 sig OficinaTurismo{
     gobierno: one GobiernoyAdm,
@@ -61,18 +61,8 @@ fact TuristasenHoteles{
     all t: Turista | all h: Hotel | t.hotel = h implies t in h.huespedes
 }
 
-//1     */
-
-
-//* 2
-
-sig GobiernoyAdm{
-    controlInf: one Infraestructuras,
-    recursos: one Recursos,
-}
-
 fact Solo1 {
-    #GobiernoyAdm = 1 && #Recursos = 1 && #Infraestructuras = 1
+    #Recursos = 1 && #Infraestructuras = 1
 }
 
 sig Recursos{
@@ -106,6 +96,9 @@ fact Inf_GyA{
 sig EstacionDeEnergia, AbastecimientoDeAgua, CamposDeCultivo, AguasResiduales{
     esSupervisado: one Infraestructuras
 }
-//2     */
 
-run show{}
+//run show{}
+
+pred show{}
+
+run show for 4
