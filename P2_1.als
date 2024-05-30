@@ -7,7 +7,7 @@ sig Turista extends Persona{
     actividad: lone Actividad
 }
 
-sig GobiernoyAdm{
+one sig GobiernoyAdm{
     leyes : disj some Ley,
     oficina: one OficinaTurismo,
     centroOp: one CentroRescate,
@@ -15,17 +15,14 @@ sig GobiernoyAdm{
 
 abstract sig Ley{}
 
-fact SoloUnGobierno {
-    one g: GobiernoyAdm | g.leyes = Ley
-}
 
-sig OficinaTurismo{
+one sig OficinaTurismo{
     gobierno: one GobiernoyAdm,
     excursion : set Actividad,
     servicio : some Hotel,
 }
 
-fact Solo1OficinaTurismo{
+fact OficinaTurismoFact{
     one of: OficinaTurismo | of.excursion = Actividad and of.servicio = Hotel
 }
 
@@ -60,20 +57,14 @@ fact TuristasenHoteles{
     all t: Turista | all h: Hotel | t.hotel = h implies t in h.huespedes
 }
 
-
 //Nuevo Codigo
-
-abstract sig CentroRescate{
+one sig CentroRescate{
     esAdministrado: one GobiernoyAdm,
-    operaciones: some Operacion,
+    operaciones: set Operacion,
 }
 
 fact centroGobierno{
     one c: CentroRescate | one g: GobiernoyAdm | c.esAdministrado = g implies g.centroOp = c
-}
-
-fact solo1CentroRescate{
-    #CentroRescate = 1
 }
 
 abstract sig Operacion{
@@ -82,18 +73,18 @@ abstract sig Operacion{
     buzo: one Buzo,
 }
 
+abstract sig Medico, Buzo{
+    operacion: one Operacion,
+}
+
 fact OperacionesEnCentroRescate{
     all o: Operacion | one c: CentroRescate | o.centro = c implies o in c.operaciones
 }
 
-//Quiero un hecho que diga que en las operaciones tiene que haber 2 medicos y 1 buzo
 fact OperacionMedicoBuzo{
     all o: Operacion | #o.medicos = 2 and #o.buzo = 1
 }
 
-abstract sig Medico, Buzo{
-    operacion: one Operacion,
-}
 
 fact RelacionMedicoOperacion{
     all m: Medico | all o: Operacion | m.operacion = o implies m in o.medicos
@@ -104,4 +95,5 @@ fact RelacionBuzoOperacion{
 }
 
 //Resuelto
-run show{}
+pred show{}
+run show for 5
