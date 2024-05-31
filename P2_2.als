@@ -26,10 +26,6 @@ fact investigacionSupervisada {
     all i: Investigacion | one c: CentroInvestigacion | i in c.supervisa
 }
 
-fact minimoCientificosPorInvestigacion {
-    all i: Investigacion | #i.tieneCientificos >= 1
-}
-
 fact Solo1 {
     #GobiernoyAdm = 1 && #Recursos = 1 && #Infraestructuras = 1
 }
